@@ -28,46 +28,71 @@ const People = (function () {
     var people = ['Mark', 'Alyona', 'Yaroslav', 'Dima', 'Vova'];
     var self = this;
 
-    function cacheDom() {
+    this.cacheDom = function () {
         self.nameInput = $("#name");
         self.sendbutton = $("#sendValues");
         self.ul = $("#nameList");
+        self.delete = $("span[id^='deleteButton']")
         self.renderButton = $('#renderPage')
 
     }
-
-    function bindEvent() {
-        // self.sendbutton.on('click', addPerson);
-        self.renderButton.on('click', render());
+    this.clearEl = function (el) {
+        el.html("  ") ;
     }
-    function render() {
+    this.bindEvent  = function () {
+        this.delete.click( this.deletePerson(this) )
+        self.sendbutton.on('click', addPerson);
+        this.renderButton.on('click', this.render);
+    }
+    this.render = function () {
+
+        var ulHtml = self.ul;
+
+        self.clearEl(ulHtml);
+
         function mapFunc(value) {
             return value + "_local";
-
         }
-        for(i=0; i<people.length; i++){
-            self.ul.append("<li>"+ people[i] +"</li>");
-        }
-        var localPeople = _.object(people, people.forEach(mapFunc));
 
+        console.log(people);
+        var mapedPeople = people.map(mapFunc);
+        var localPeople = _.object(people, mapedPeople);
         localStorage.setItem('people', JSON.stringify(localPeople));
-        console.log(localPeople);
-        document.location.reload();
+        people = Object.keys(JSON.parse(localStorage.getItem('people')));
+        for(i=0; i<people.length; i++) {
+            self.ul.append("<li>" + people[i] + " <span class='deleteB' id='deleteB"+[i]+ "' title='Щоб видалити натисніть Х'>X</span></li>");
+        };
 
     }
+    this.addPerson = function () {
+        people.push(self.nameInput.val());
+        self.render();
+        self.nameInput.val('');
+    }
+    this.deletePerson = function (event) {
+        // var removePeolpe = $(elem.currentTarget);
+        debugger;
+        console.log("work");
+        // console.log(_.indexOf(self.peolpe, removePeolpe.innerText));
+        // people.splice(_.indexOf(self.peolpe, removePeolpe.innerText), 1)
+        // self.render();
+        var $remove = $(event.target).closest('span');
+        var i = self.ul.find('li').index($remove);
+        people.splice(i, 1);
+        self.render();
+    }
     var init = function () {
-        this.cacheDom();
-        this.bindEent();
-        this.render();
+        self.cacheDom();
+        self.bindEvent();
+        self.render();
     }
     return {
         init: init
     }
+    
 })();
 
 People.init();
-
-
 
 
 

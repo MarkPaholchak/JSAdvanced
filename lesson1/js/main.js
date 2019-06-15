@@ -5,8 +5,9 @@ const User = (function () {
     var userAge = "20";
 
     function Get() {
-        return console.log(userName +", age " + userAge);
+        return console.log(userName + ", age " + userAge);
     };
+
     function SetName(value) {
         userName = value;
     };
@@ -32,17 +33,16 @@ const People = (function () {
         self.nameInput = $("#name");
         self.sendbutton = $("#sendValues");
         self.ul = $("#nameList");
-        self.delete = $("span[id^='deleteButton']")
         self.renderButton = $('#renderPage')
 
     }
     this.clearEl = function (el) {
-        el.html("  ") ;
+        el.html("  ");
     }
-    this.bindEvent  = function () {
-        this.delete.click( this.deletePerson(this) )
+    this.bindEvent = function () {
         self.sendbutton.on('click', addPerson);
-        this.renderButton.on('click', this.render);
+        self.renderButton.on('click', this.render);
+        self.ul.delegate('span.deleteB', 'click', deletePerson)
     }
     this.render = function () {
 
@@ -59,9 +59,10 @@ const People = (function () {
         var localPeople = _.object(people, mapedPeople);
         localStorage.setItem('people', JSON.stringify(localPeople));
         people = Object.keys(JSON.parse(localStorage.getItem('people')));
-        for(i=0; i<people.length; i++) {
-            self.ul.append("<li>" + people[i] + " <span class='deleteB' id='deleteB"+[i]+ "' title='Щоб видалити натисніть Х'>X</span></li>");
-        };
+        for (i = 0; i < people.length; i++) {
+            self.ul.append("<li><span class='person'>" + people[i] + " </span><span class='deleteB' title='Щоб видалити натисніть Х'>X</span></li>");
+        }
+        ;
 
     }
     this.addPerson = function () {
@@ -70,14 +71,8 @@ const People = (function () {
         self.nameInput.val('');
     }
     this.deletePerson = function (event) {
-        // var removePeolpe = $(elem.currentTarget);
-        debugger;
-        console.log("work");
-        // console.log(_.indexOf(self.peolpe, removePeolpe.innerText));
-        // people.splice(_.indexOf(self.peolpe, removePeolpe.innerText), 1)
-        // self.render();
-        var $remove = $(event.target).closest('span');
-        var i = self.ul.find('li').index($remove);
+        var removeP = $(event.target).closest('li');
+        var i = self.ul.find('li').index(removeP);
         people.splice(i, 1);
         self.render();
     }
@@ -89,11 +84,159 @@ const People = (function () {
     return {
         init: init
     }
-    
+
 })();
 
 People.init();
 
+//task 3
+$('.task3').hide('slow');
+const HrestNol = (function () {
+
+    var self = this;
+    this.WinVar = [
+        ["block1", "block2", "block3"],
+        ["block4", "block5", "block6"],
+        ["block7", "block8", "block9"],
+        ["block1", "block4", "block7"],
+        ["block2", "block5", "block8"],
+        ["block3", "block6", "block9"],
+        ["block1", "block5", "block9"],
+        ["block3", "block5", "block7"]
+    ];
+    this.avalibleBlock = [
+        "block1",
+        "block2",
+        "block3",
+        "block4",
+        "block5",
+        "block6",
+        "block7",
+        "block8",
+        "block9"
+    ];
+
+    this.player1 = [];
+
+    this.player2 = [];
+
+    this.blockSelect = function (elem) {
+        elem.preventDefault();
+        var block = elem.target;
+        // debugger;m
+        console.log(block.className);
+        if (avalibleBlock.indexOf(block.className) !== -1) {
+            avalibleBlock.splice(avalibleBlock.indexOf(block.className), 1);
+            self.playerNote(block.className)
+        } else if (avalibleBlock.length == 0) {
+            alert ("Гру закінчено ^-^")
+        } else {
+            alert ("Цей блок вже вибрано!");
+        }
+
+
+    }
+    this.playerNote = function (data) {
+
+        if (self.player1.length <= self.player2.length) {
+            $('.'+data).addClass('clasX');
+            self.player1.push(data);
+            $('.mainBlock').toggleClass('aft');
+            $('.mainBlock').toggleClass('bef');
+
+            if(arrayCompars(player1, WinVar) == true) {
+                alert("Гравець Х ВИГРАВ!");
+                console.log('Game over');
+                avalibleBlock.length = 0;
+                $('.mainBlock').toggleClass('aft');
+                $('.mainBlock').toggleClass('aftV');
+                $('.mainBlock').toggleClass('bef');
+                return;
+            };
+            if (avalibleBlock.length == 0){
+                alert ("Нічия!");
+                $('.mainBlock').toggleClass('aft');
+                $('.mainBlock').toggleClass('aftN');
+                $('.mainBlock').toggleClass('befN');
+            }
+        }else if(self.player1.length > self.player2.length) {
+            $('.'+data).addClass('classO');
+            self.player2.push(data);
+            $('.mainBlock').toggleClass('aft');
+            $('.mainBlock').toggleClass('bef');
+
+            if(arrayCompars(player2, WinVar) == true) {
+                alert("Гравець О ВИГРАВ!");
+                console.log('Game over');
+                avalibleBlock.length = 0;
+                $('.mainBlock').toggleClass('aft');
+                $('.mainBlock').toggleClass('bef');
+                $('.mainBlock').toggleClass('befV');
+            };
+        }
+    }
+
+
+
+    this.arrayCompars = function (player, winarray) {
+        for (i = 0; i < winarray.length; i++) {
+            var cache = winarray[i];
+            var results = _.intersection(cache, player);
+            if (results.length == cache.length) {
+                return true;
+            }
+        }
+    };
+
+    this.Game = function () {
+
+        $('.mainBlock').on('click', blockSelect);
+
+    }
+
+    this.Start = function () {
+
+        $('#gamee').click(function () {
+            $('.task3').show(500);
+            if (player1.length !== 0) player1 = [];
+            if (player2.length !== 0) player2 = [];
+            if (avalibleBlock.length == 0 ){
+                for (i=1; i<10; i++){
+                    avalibleBlock.push('block'+i)
+                }
+                for (j=0; j<avalibleBlock.length; j++){
+                    if ($('.'+avalibleBlock[j]).hasClass('classO')){
+                        $('.'+avalibleBlock[j]).removeClass('classO');
+                    } else if ( $('.'+avalibleBlock[j]).hasClass('clasX') ){
+                        $('.'+avalibleBlock[j]).removeClass('clasX');
+                    }
+                }
+                console.log(avalibleBlock)
+            }
+
+            if ($('.mainBlock').hasClass('aft')){
+                $('.mainBlock').toggleClass('bef');
+            } else {
+                $('.mainBlock').toggleClass('aft');
+            };
+            if ($('.mainBlock').hasClass('aftV')) $('.mainBlock').removeClass('aftV');
+            if ($('.mainBlock').hasClass('aftN')) $('.mainBlock').removeClass('aftN');
+            if ($('.mainBlock').hasClass('befV')) $('.mainBlock').removeClass('befV');
+            if ($('.mainBlock').hasClass('befN')) $('.mainBlock').removeClass('befN');
+            self.Game();
+
+
+        });
+    }
+
+    return {
+
+        start: self.Start
+    }
+})
+();
+
+HrestNol.start();
 
 
 

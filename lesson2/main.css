@@ -1,0 +1,152 @@
+.mainBlock {
+    margin: 0 auto;
+    width: 60%;
+
+}
+.gateBlock {
+    margin: 50px auto;
+    width: 680px;
+    height: 460px;
+    /*background-image: url("images/890742.png");*/
+    /*background-size: contain;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+}
+.gateBlock>img {
+    position: relative;
+    width: inherit;
+    z-index: 4;
+    left: -10px;
+}
+area[alt='leftTop']{
+    z-index: 10;
+    position: relative;
+}
+.target {
+    background-image: url("images/6-2-target-picture.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100px;
+    height: 100px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    z-index: 5;
+
+}
+.LeftTop {
+    top: -570px;
+    left: 50px;
+    margin-bottom: 50px;
+    margin-right: 150px;
+}
+.LeftBottom{
+    top: -240px;
+    left: 50px;
+    margin-top: 50px;
+    margin-right: 150px;
+}
+.RightBottom {
+    top: -640px;
+    left: 330px;
+    margin-top: 50px;
+    margin-left: 150px;
+}
+.RightTop {
+    top: -720px;
+    left: 330px;
+    margin-bottom: 50px;
+    margin-left: 150px;
+}
+.footballer {
+    position: relative;
+    z-index: 6;
+    top: -1030px;
+    left: 180px;
+    background-image: url("images/bez_nazv.png");
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-sizing: border-box;
+    width:280px;
+    height: 535px;
+    transition: transform 1s ease-out ;
+}
+
+.footballerLeftTop {
+    background-image:url("images/kisspng-goalkeeper-football-sport-goal-5ac7b4790dc5e0.3446627515230373050564.png");
+    transform: matrix(-1,0,0,1,-90,-70);
+}
+.footballerLeftBottom {
+    transform: matrix(-0.5,1,1,0.7,-70,10);
+    background-image:url("images/kisspng-goalkeeper-football-sport-goal-5ac7b4790dc5e0.3446627515230373050564.png");
+}
+.footballerRightTop {
+    transform: matrix(1,0,0,1,90,-70);
+    background-image:url("images/kisspng-goalkeeper-football-sport-goal-5ac7b4790dc5e0.3446627515230373050564.png");
+}
+.footballerRightBottom {
+    transform: matrix(0.5,0.8,-1,0.5,80,10);
+    background-image:url("images/kisspng-goalkeeper-football-sport-goal-5ac7b4790dc5e0.3446627515230373050564.png");
+}
+.ball {
+    background-image: url("images/football_PNG52789.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    z-index: 11;
+    width: 100px;
+    height: 100px;
+    /*transform: matrix(scaleX 1,skewY 0,skewX 0,scaleY 1,translateX 380,translateY -145);*/
+    transform: scale(1,1) translate(380, -145);
+    transition: transform 1s ease-out;
+}
+.ballLeftTop {
+    transform: scale(0.6,0.6) translate(170, -505);
+    /*transform: matrix(0.6,0,0,0.6, 170, -505);*/
+}
+.ballRightTop {
+    transform: scale(0.6,0.6);
+
+    /*transform: matrix(0.6,0,0,0.6,600,-505);*/
+}
+.ballRightBottom {
+    transform: scale(0.6,0.6);
+
+    /*transform: matrix(0.6,0,0,0.6,600,-280);*/
+}
+.ballLeftBottom {
+    transform: scale(0.6,0.6);
+
+    /*transform: matrix(0.6,0,0,0.6,170,-280);*/
+}
+
+button[value='Restart']{
+    box-sizing: border-box;
+    margin-left: 100px;
+    display: inline-block;
+ }
+button[value='Start']{
+    box-sizing: border-box;
+    margin-left: 400px;
+    display: inline-block;
+ }
+#numbValuee {
+    display: inline-block;
+    float: right;
+    box-sizing: border-box;
+    margin-right: 150px;
+    transition: margin-right 1s ease-out;
+}
+.numbValue {
+    border: darkred 1px solid;
+}
+.numbPlayer {
+    border: darkblue 1px solid;
+}
+span {
+    margin: 10px;
+}
